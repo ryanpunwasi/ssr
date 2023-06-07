@@ -216,6 +216,8 @@ var _Routes2 = _interopRequireDefault(_Routes);
 
 var _reactRedux = __webpack_require__(2);
 
+var _reactRouterConfig = __webpack_require__(18);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (req, store) {
@@ -225,7 +227,11 @@ exports.default = function (req, store) {
     _react2.default.createElement(
       _reactRouterDom.StaticRouter,
       { context: {}, location: req.path },
-      _react2.default.createElement(_Routes2.default, null)
+      _react2.default.createElement(
+        "div",
+        null,
+        (0, _reactRouterConfig.renderRoutes)(_Routes2.default)
+      )
     )
   ));
   var html = "<html></html><head></head><body><div id=\"root\">" + content + "</div><script src=\"bundle.js\"></script></body>";
@@ -475,6 +481,12 @@ exports.default = function () {
       return state;
   }
 };
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-router-config");
 
 /***/ })
 /******/ ]);
