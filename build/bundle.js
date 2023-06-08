@@ -155,6 +155,12 @@ var _express = __webpack_require__(7);
 
 var _express2 = _interopRequireDefault(_express);
 
+var _reactRouterConfig = __webpack_require__(18);
+
+var _Routes = __webpack_require__(10);
+
+var _Routes2 = _interopRequireDefault(_Routes);
+
 var _renderer = __webpack_require__(8);
 
 var _renderer2 = _interopRequireDefault(_renderer);
@@ -169,10 +175,15 @@ var app = (0, _express2.default)();
 app.use(_express2.default.static("public"));
 app.get("*", function (req, res) {
   var store = (0, _createStore2.default)();
+  var promises = (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
+    var route = _ref.route;
 
-  // Init and load data into store
+    return route.loadData ? route.loadData(store) : null;
+  });
 
-  res.send((0, _renderer2.default)(req, store));
+  Promise.all(promises).then(function () {
+    return res.send((0, _renderer2.default)(req, store));
+  });
 });
 
 app.listen(3000, function () {
@@ -270,6 +281,7 @@ exports.default = [{
   component: _Home2.default,
   exact: true
 }, {
+  loadData: _UsersList.loadData,
   path: "/users",
   component: _UsersList2.default,
   exact: true
@@ -323,6 +335,7 @@ exports.default = Home;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.loadData = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -392,6 +405,11 @@ var mapStateToProps = function mapStateToProps(_ref) {
   return { users: users };
 };
 
+var loadData = function loadData(store) {
+  return store.dispatch((0, _actions.fetchUsers)());
+};
+
+exports.loadData = loadData;
 exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchUsers: _actions.fetchUsers })(UsersList);
 
 /***/ }),
