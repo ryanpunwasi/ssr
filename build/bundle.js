@@ -286,7 +286,7 @@ exports.default = function (req, store) {
       )
     )
   ));
-  var html = "<html></html><head></head><body><div id=\"root\">" + content + "</div><script src=\"bundle.js\"></script></body>";
+  var html = "<html></html><head></head><body><div id=\"root\">" + content + "</div><script>window.INITIAL_STATE = " + JSON.stringify(store.getState()) + "</script><script src=\"bundle.js\"></script></body>";
   return html;
 };
 
