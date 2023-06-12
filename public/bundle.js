@@ -38023,6 +38023,10 @@ var _UsersListPage = __webpack_require__(453);
 
 var _UsersListPage2 = _interopRequireDefault(_UsersListPage);
 
+var _NotFoundPage = __webpack_require__(488);
+
+var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+
 var _App = __webpack_require__(477);
 
 var _App2 = _interopRequireDefault(_App);
@@ -38038,7 +38042,7 @@ exports.default = [_extends({}, _App2.default, {
     path: "/users"
   }, _UsersListPage2.default, {
     exact: true
-  })]
+  }), _extends({}, _NotFoundPage2.default)]
 })];
 
 /***/ }),
@@ -39837,9 +39841,22 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(171);
 
+var _reactRedux = __webpack_require__(179);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function () {
+var Header = function Header(_ref) {
+  var auth = _ref.auth;
+
+  var authButton = auth ? _react2.default.createElement(
+    "a",
+    { href: "/api/logout" },
+    "Logout"
+  ) : _react2.default.createElement(
+    "a",
+    { href: "/api/auth/google" },
+    "Login"
+  );
   return _react2.default.createElement(
     "div",
     null,
@@ -39847,9 +39864,32 @@ exports.default = function () {
       _reactRouterDom.Link,
       { to: "/" },
       "SSR"
+    ),
+    _react2.default.createElement(
+      "div",
+      null,
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: "/users" },
+        "Users"
+      ),
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: "/admins" },
+        "Admins"
+      ),
+      authButton
     )
   );
 };
+
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var auth = _ref2.auth;
+
+  return { auth: auth };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
 
 /***/ }),
 /* 484 */
@@ -39956,6 +39996,39 @@ exports.default = function () {
     default:
       return state;
   }
+};
+
+/***/ }),
+/* 488 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NotFoundPage = function NotFoundPage(_ref) {
+  var _ref$staticContext = _ref.staticContext,
+      staticContext = _ref$staticContext === undefined ? {} : _ref$staticContext;
+
+  staticContext.notFound = true;
+  return _react2.default.createElement(
+    "h1",
+    null,
+    "Not found"
+  );
+};
+
+exports.default = {
+  component: NotFoundPage
 };
 
 /***/ })
